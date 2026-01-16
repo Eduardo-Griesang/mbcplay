@@ -9,9 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
+        mainBackground: "#191919",
+        secondaryBackground: "#212121",
         foreground: "var(--foreground)",
+        white: "#FFFFFF",
+        mainText: "#E8E8E8",
+        secondaryText: "rgba(232, 232, 232, 0.35)",
+        thirdText: "#888888",
+        fourthText: "#666666",
       },
+      borderRadius: {
+        "4xl": "30px",
+      }
     },
   },
   plugins: [],
