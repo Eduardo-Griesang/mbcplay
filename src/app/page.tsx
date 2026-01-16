@@ -5,6 +5,7 @@ import SearchBar from "./components/SearchBar";
 import SideBar from "./components/SideBar";
 import MediaSection from "./components/MediaSection";
 import { useMedia } from "@/context/MediaContext";
+import { useEffect } from "react";
 
 export default function Home() {
   const { 
@@ -18,7 +19,9 @@ export default function Home() {
     errorTVShows
   } = useMedia();
 
-  console.log(popularMovies)
+  useEffect(() => {
+    console.log(popularMovies)
+  })
 
   return (
     <div className="bg-mainBackground grid grid-cols-6 h-screen overflow-hidden">
