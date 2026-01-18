@@ -8,6 +8,7 @@ interface MediaSectionProps {
   items: MediaItem[];
   loading: boolean;
   error: string | null;
+  mediaType: 'movie' | 'tv';
   imageSize?: 'small' | 'medium' | 'large';
 }
 
@@ -16,6 +17,7 @@ export default function MediaSection({
   items,
   loading,
   error,
+  mediaType,
   imageSize = 'medium',
 }: MediaSectionProps) {
   if (loading) {
@@ -57,7 +59,7 @@ export default function MediaSection({
       <h2 className="text-mainText text-2xl font-semibold mb-6">{title}</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-x-auto pb-4">
         {items.map((item) => (
-          <MediaCard key={item.id} media={item} imageSize={imageSize} />
+          <MediaCard key={item.id} media={item} mediaType={mediaType} imageSize={imageSize} />
         ))}
       </div>
     </section>

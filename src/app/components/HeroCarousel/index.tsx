@@ -7,10 +7,11 @@ import Button from '../Button';
 
 interface HeroCarouselProps {
   items: MediaItem[];
+  mediaType: 'movie' | 'tv';
   loading?: boolean;
 }
 
-export default function HeroCarousel({ items, loading = false }: HeroCarouselProps) {
+export default function HeroCarousel({ items, mediaType, loading = false }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (loading || !items || items.length === 0) {
@@ -41,7 +42,6 @@ export default function HeroCarousel({ items, loading = false }: HeroCarouselPro
   return (
     <div className="w-full mb-12">
       <div className="relative h-96 overflow-hidden rounded-4xl">
-        {/* Carousel container */}
         <div 
           className="flex h-full transition-transform duration-500 ease-out"
           style={{ 
@@ -53,6 +53,7 @@ export default function HeroCarousel({ items, loading = false }: HeroCarouselPro
             const backdropUrl = item.backdrop_path
               ? `https://image.tmdb.org/t/p/w1280${item.backdrop_path}`
               : 'https://via.placeholder.com/1280x720?text=No+Image';
+            const detailsHref = `/Details?id=${item.id}&type=${mediaType}`;
 
             return (
               <div 
@@ -67,19 +68,17 @@ export default function HeroCarousel({ items, loading = false }: HeroCarouselPro
                   className="object-cover"
                 />
                 
-                {/* Overlay gradient - only on current */}
                 {index === currentIndex && (
                   <>
                     <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-70" />
                     
-                    {/* Content */}
                     <div className="absolute inset-0 flex justify-end p-8 items-end">
                       <div className="flex gap-4 items-center">
                         <div className="w-40">
                           <Button play={true} />
                         </div>
                         <div className="w-40">
-                          <Button details={true} />
+                          <Button details={true} detailsHref={detailsHref} />
                         </div>
                       </div>
                     </div>
@@ -90,7 +89,6 @@ export default function HeroCarousel({ items, loading = false }: HeroCarouselPro
           })}
         </div>
 
-        {/* Navigation Buttons */}
         {canShowPrev && (
           <button
             onClick={handlePrevious}

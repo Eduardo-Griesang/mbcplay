@@ -35,7 +35,8 @@ export default function Home() {
 
         <div className="pb-12 pl-7">
           <HeroCarousel 
-            items={upcomingMovies.slice(11, 13)} 
+            items={upcomingMovies.slice(11, 13)}
+            mediaType="movie"
             loading={loadingMovies}
           />
           
@@ -44,6 +45,7 @@ export default function Home() {
             items={popularMovies}
             loading={loadingMovies}
             error={errorMovies}
+            mediaType="movie"
           />
           
           <MediaSection
@@ -51,6 +53,7 @@ export default function Home() {
             items={popularTVShows}
             loading={loadingTVShows}
             error={errorTVShows}
+            mediaType="tv"
           />
           
           <MediaSection
@@ -58,6 +61,7 @@ export default function Home() {
             items={upcomingMovies}
             loading={loadingMovies}
             error={errorMovies}
+            mediaType="movie"
           />
           
           <MediaSection
@@ -65,6 +69,7 @@ export default function Home() {
             items={upcomingTVShows}
             loading={loadingTVShows}
             error={errorTVShows}
+            mediaType="tv"
           />
         </div>
       </main>

@@ -1,29 +1,37 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { MediaItem } from '@/context/MediaContext';
+import Star from "../../icons/Star.svg"
 
 interface MediaCardProps {
   media: MediaItem;
+  mediaType: 'movie' | 'tv';
   imageSize?: 'small' | 'medium' | 'large';
 }
 
-export default function MediaCard({ media, imageSize = 'medium' }: MediaCardProps) {
+export default function MediaCard({ media, mediaType, imageSize = 'medium' }: MediaCardProps) {
   const imageUrl = media.poster_path
     ? `https://image.tmdb.org/t/p/w500${media.poster_path}`
     : 'https://via.placeholder.com/300x450?text=No+Image';
 
   const sizeClasses = {
-    small: 'w-32 h-48',
+    small: 'w-40 h-56',
     medium: 'w-40 h-56',
     large: 'w-48 h-64',
   };
 
   const title = media.title || media.name || 'Untitled';
+  const detailsHref = { pathname: '/Details', query: { id: media.id, type: mediaType } };
 
   return (
-    <div className="flex flex-col gap-3 cursor-pointer group">
-      <div className={`${sizeClasses[imageSize]} relative overflow-hidden rounded-lg`}>
+    <Link
+      href={detailsHref}
+      className={`${sizeClasses[imageSize]} relative flex flex-col gap-1 cursor-pointer group`}
+      aria-label={`Open details for ${title}`}
+    >
+      <div className={`${sizeClasses[imageSize]} relative overflow-hidden rounded-2xl`}>
         <Image
           src={imageUrl}
           alt={title}
@@ -38,15 +46,10 @@ export default function MediaCard({ media, imageSize = 'medium' }: MediaCardProp
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <h3 className="text-mainText font-semibold text-sm truncate">{title}</h3>
-        <p className="text-fourthText text-xs">
-          {media.release_date || media.first_air_date || 'N/A'}
-        </p>
-        <div className="flex items-center gap-1">
-          <span className="text-thirdText text-xs">★ {media.vote_average.toFixed(1)}</span>
-        </div>
+      <div className="absolute flex items-center bg-secondaryBackground/50 px-2 right-0 rounded-tr-2xl rounded-bl-2xl gap-1 z-10">
+        <Image src={Star} alt={'Star'} />
+        <span className="text-mainText font-medium text-lg"> {media.vote_average.toFixed(1)}</span>
       </div>
-    </div>
+    </Link>
   );
 }

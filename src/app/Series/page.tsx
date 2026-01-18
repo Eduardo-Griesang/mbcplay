@@ -18,7 +18,7 @@ export default function Series() {
         <div className="bg-mainBackground grid grid-cols-6 h-screen overflow-hidden">
             <SideBar />
             <main className="col-span-5 mx-7 flex flex-col overflow-y-auto">
-                <section className="flex items-center justify-between py-6 sticky top-0 bg-mainBackground z-10">
+                <section className="flex items-center justify-between py-6 bg-mainBackground z-10">
                     <SearchBar />
                     <Profile />
                 </section>
@@ -29,6 +29,7 @@ export default function Series() {
                         items={popularTVShows}
                         loading={loadingTVShows}
                         error={errorTVShows}
+                        mediaType="tv"
                     />
                     
                     <MediaSection
@@ -36,6 +37,7 @@ export default function Series() {
                         items={upcomingTVShows}
                         loading={loadingTVShows}
                         error={errorTVShows}
+                        mediaType="tv"
                     />
                 </div>
             </main>
