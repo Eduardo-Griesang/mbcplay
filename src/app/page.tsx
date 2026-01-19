@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <MainPage>
         <HeroCarousel 
-          items={filteredUpcomingMovies.slice(11, 13)}
+          items={filteredUpcomingMovies.slice(1, 3)}
           mediaType="movie"
           loading={loadingMovies}
         />

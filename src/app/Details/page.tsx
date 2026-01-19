@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { getMediaDetails } from "@/lib/tmdb";
+import { getMediaDetails, getSimilarByGenres } from "@/lib/tmdb";
 import MainPage from "../components/MainPage";
 import Star from "../icons/Star.svg"
 import Play from "../icons/Play.svg"
+import MediaCard from "../components/MediaCard";
+import type { MediaItem } from "@/context/MediaContext";
 
 type DetailsPageProps = {
     searchParams?: {
@@ -22,6 +24,7 @@ export default async function Details({ searchParams }: DetailsPageProps) {
         apiKey,
         baseURL,
     });
+    const normalizedType = mediaType === "movie" || mediaType === "tv" ? mediaType : null;
     const year = details?.release_date ? new Date(details.release_date).getFullYear() : null;
     const crew = details?.credits?.crew ?? [];
     const cast = details?.credits?.cast ?? [];
@@ -38,6 +41,35 @@ export default async function Details({ searchParams }: DetailsPageProps) {
     const castNames = cast.slice(0, 5).map((member) => member.name);
     const uniqueNames = (names: string[]) => Array.from(new Set(names));
     const formatNames = (names: string[]) => (names.length ? uniqueNames(names).join(", ") : "N/A");
+    const genreIds = details?.genres?.map((genre) => genre.id) ?? [];
+    const { items: similarItems } = details && normalizedType
+        ? await getSimilarByGenres({
+              type: normalizedType,
+              genreIds,
+              excludeId: details.id,
+              apiKey,
+              baseURL,
+              limit: 4,
+          })
+        : { items: [] };
+    const normalizedSimilarItems: MediaItem[] = similarItems.map((item) => ({
+        id: item.id,
+        title: item.title,
+        name: item.name,
+        poster_path: item.poster_path ?? "",
+        backdrop_path: item.backdrop_path ?? "",
+        overview: item.overview ?? "",
+        release_date: item.release_date,
+        first_air_date: item.first_air_date,
+        vote_average: item.vote_average ?? 0,
+        genre_ids: item.genre_ids ?? [],
+    }));
+    let type = ""
+    if (normalizedType === "movie") {
+        type = "Filmes"
+    } else if (normalizedType === "tv") {
+        type = "Séries"
+    }
 
     return (
         <MainPage>
@@ -115,6 +147,23 @@ export default async function Details({ searchParams }: DetailsPageProps) {
                                 </section>
                             </div>
                         </div>
+                        {normalizedSimilarItems.length > 0 && normalizedType && (
+                            <section className="mt-16 w-3/4">
+                                <h2 className="text-mainText text-2xl font-semibold mb-6">
+                                    Outros {type} que voce pode gostar
+                                </h2>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                                    {normalizedSimilarItems.map((item) => (
+                                        <MediaCard
+                                            key={item.id}
+                                            media={item}
+                                            mediaType={normalizedType}
+                                            imageSize="small"
+                                        />
+                                    ))}
+                                </div>
+                            </section>
+                        )}
                     </div>
                 ) : (
                     <p className="text-thirdText">Loading details...</p>

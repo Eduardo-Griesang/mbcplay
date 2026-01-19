@@ -22,6 +22,19 @@ export type MediaCredits = {
     crew?: { id: number; name: string; job?: string; department?: string }[];
 };
 
+export type MediaSummary = {
+    id: number;
+    title?: string;
+    name?: string;
+    overview?: string;
+    poster_path?: string | null;
+    backdrop_path?: string | null;
+    release_date?: string;
+    first_air_date?: string;
+    vote_average?: number;
+    genre_ids?: number[];
+};
+
 type FetchResult = {
     details: MediaDetails | null;
     error: string | null;
@@ -59,5 +72,62 @@ export async function getMediaDetails(params: {
     } catch (error) {
         const message = error instanceof Error ? error.message : "Failed to fetch details.";
         return { details: null, error: message };
+    }
+}
+
+type SimilarResult = {
+    items: MediaSummary[];
+    error: string | null;
+};
+
+export async function getSimilarByGenres(params: {
+    type?: string;
+    genreIds: number[];
+    excludeId?: number;
+    apiKey?: string;
+    baseURL?: string;
+    limit?: number;
+}): Promise<SimilarResult> {
+    const {
+        type,
+        genreIds,
+        excludeId,
+        apiKey,
+        baseURL = "https://api.themoviedb.org/3",
+        limit = 4,
+    } = params;
+    const isValidType = type === "movie" || type === "tv";
+
+    if (!isValidType) {
+        return { items: [], error: "Missing or invalid media type." };
+    }
+
+    if (!apiKey) {
+        return { items: [], error: "TMDB API key is not configured." };
+    }
+
+    if (!genreIds.length) {
+        return { items: [], error: null };
+    }
+
+    try {
+        const response = await fetch(
+            `${baseURL}/discover/${type}?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&with_genres=${genreIds.join(",")}&page=1&include_adult=false`,
+            { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch similar media (${response.status})`);
+        }
+
+        const data = await response.json();
+        const filtered = (data.results || []).filter(
+            (item: { id?: number }) => (excludeId ? item.id !== excludeId : true)
+        );
+
+        return { items: filtered.slice(0, limit), error: null };
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to fetch similar media.";
+        return { items: [], error: message };
     }
 }

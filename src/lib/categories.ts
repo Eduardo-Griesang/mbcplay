@@ -6,11 +6,11 @@ export type Category = {
 };
 
 export const categories: Category[] = [
-    { id: "all", label: "Todas" },
+    { id: "all", label: "Tudo" },
     { id: "action", label: "Ação", movieGenreId: 28, tvGenreId: 10759 },
     { id: "horror", label: "Terror", movieGenreId: 27, tvGenreId: 9648 },
     { id: "adventure", label: "Aventura", movieGenreId: 12, tvGenreId: 10759 },
-    { id: "animation", label: "Animacão", movieGenreId: 16, tvGenreId: 16 },
+    { id: "animation", label: "Animação", movieGenreId: 16, tvGenreId: 16 },
     { id: "drama", label: "Drama", movieGenreId: 18, tvGenreId: 18 },
     { id: "comedy", label: "Comédia", movieGenreId: 35, tvGenreId: 35 },
     { id: "sports", label: "Esportes", movieGenreId: 99, tvGenreId: 10764 },
