@@ -1,0 +1,26 @@
+import type { ReactNode } from "react";
+import Profile from "../Profile";
+import SearchBar from "../SearchBar";
+import SideBar from "../SideBar";
+
+type MainPageProps = {
+    children: ReactNode;
+};
+
+export default function MainPage({ children }: MainPageProps) {
+    return (
+        <div className="bg-mainBackground grid grid-cols-6 h-screen overflow-hidden">
+            <SideBar />
+            <main className="col-span-5 flex flex-col overflow-y-auto">
+                <section className="flex items-center justify-between py-6 top-0 bg-mainBackground z-10 px-7">
+                    <SearchBar />
+                    <Profile />
+                </section>
+
+                <div className="pb-12 pl-7">
+                    {children}
+                </div>
+            </main>
+        </div>
+    )
+}

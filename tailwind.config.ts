@@ -20,6 +20,9 @@ const config: Config = {
       },
       borderRadius: {
         "4xl": "30px",
+      },
+      borderWidth: {
+        1: "1px"
       }
     },
   },

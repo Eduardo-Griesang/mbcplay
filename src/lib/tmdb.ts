@@ -13,6 +13,13 @@ export type MediaDetails = {
     genres?: { id: number; name: string }[];
     runtime?: number;
     number_of_seasons?: number;
+    created_by?: { id: number; name: string }[];
+    credits?: MediaCredits;
+};
+
+export type MediaCredits = {
+    cast?: { id: number; name: string; character?: string; order?: number }[];
+    crew?: { id: number; name: string; job?: string; department?: string }[];
 };
 
 type FetchResult = {
@@ -38,9 +45,12 @@ export async function getMediaDetails(params: {
     }
 
     try {
-        const res = await fetch(`${baseURL}/${type}/${id}?api_key=${apiKey}&language=en-US`, {
-            cache: "no-store",
-        });
+        const res = await fetch(
+            `${baseURL}/${type}/${id}?api_key=${apiKey}&language=en-US&append_to_response=credits`,
+            {
+                cache: "no-store",
+            }
+        );
         if (!res.ok) {
             throw new Error(`Failed to fetch details (${res.status})`);
         }

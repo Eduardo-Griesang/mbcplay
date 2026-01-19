@@ -1,12 +1,10 @@
 'use client';
 
-import Profile from "./components/Profile";
-import SearchBar from "./components/SearchBar";
-import SideBar from "./components/SideBar";
 import MediaSection from "./components/MediaSection";
 import HeroCarousel from "./components/HeroCarousel";
 import { useMedia } from "@/context/MediaContext";
 import { useEffect } from "react";
+import MainPage from "./components/MainPage";
 
 export default function Home() {
   const { 
@@ -25,54 +23,44 @@ export default function Home() {
   })
 
   return (
-    <div className="bg-mainBackground grid grid-cols-6 h-screen overflow-hidden">
-      <SideBar />
-      <main className="col-span-5 flex flex-col overflow-y-auto">
-        <section className="flex items-center justify-between py-6 top-0 bg-mainBackground z-10 px-7">
-          <SearchBar />
-          <Profile />
-        </section>
-
-        <div className="pb-12 pl-7">
-          <HeroCarousel 
-            items={upcomingMovies.slice(11, 13)}
-            mediaType="movie"
-            loading={loadingMovies}
-          />
-          
-          <MediaSection
-            title="Filmes Populares"
-            items={popularMovies}
-            loading={loadingMovies}
-            error={errorMovies}
-            mediaType="movie"
-          />
-          
-          <MediaSection
-            title="Series Populares"
-            items={popularTVShows}
-            loading={loadingTVShows}
-            error={errorTVShows}
-            mediaType="tv"
-          />
-          
-          <MediaSection
-            title="Filmes - Em Breve"
-            items={upcomingMovies}
-            loading={loadingMovies}
-            error={errorMovies}
-            mediaType="movie"
-          />
-          
-          <MediaSection
-            title="Series - Em Breve"
-            items={upcomingTVShows}
-            loading={loadingTVShows}
-            error={errorTVShows}
-            mediaType="tv"
-          />
-        </div>
-      </main>
-    </div>
+    <MainPage>
+        <HeroCarousel 
+          items={upcomingMovies.slice(11, 13)}
+          mediaType="movie"
+          loading={loadingMovies}
+        />
+        
+        <MediaSection
+          title="Filmes Populares"
+          items={popularMovies}
+          loading={loadingMovies}
+          error={errorMovies}
+          mediaType="movie"
+        />
+        
+        <MediaSection
+          title="Series Populares"
+          items={popularTVShows}
+          loading={loadingTVShows}
+          error={errorTVShows}
+          mediaType="tv"
+        />
+        
+        <MediaSection
+          title="Filmes - Em Breve"
+          items={upcomingMovies}
+          loading={loadingMovies}
+          error={errorMovies}
+          mediaType="movie"
+        />
+        
+        <MediaSection
+          title="Series - Em Breve"
+          items={upcomingTVShows}
+          loading={loadingTVShows}
+          error={errorTVShows}
+          mediaType="tv"
+        />
+    </MainPage>
   );
 }
