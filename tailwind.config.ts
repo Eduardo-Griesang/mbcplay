@@ -17,6 +17,7 @@ const config: Config = {
         secondaryText: "rgba(232, 232, 232, 0.35)",
         thirdText: "#888888",
         fourthText: "#666666",
+        fifthText: "#6C6C6C"
       },
       borderRadius: {
         "4xl": "30px",

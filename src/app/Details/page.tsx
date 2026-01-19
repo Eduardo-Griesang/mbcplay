@@ -38,14 +38,12 @@ export default async function Details({ searchParams }: DetailsPageProps) {
     const castNames = cast.slice(0, 5).map((member) => member.name);
     const uniqueNames = (names: string[]) => Array.from(new Set(names));
     const formatNames = (names: string[]) => (names.length ? uniqueNames(names).join(", ") : "N/A");
-        
-    //console.log(details)
 
     return (
         <MainPage>
             <div className="pb-12">
                 {errorMessage ? (
-                    <p className="text-thirdText">{errorMessage}</p>
+                    <p className="text-thirdText">Ocorreu um erro por favor tente novamente</p>
                 ) : details ? (
                     <div className="flex flex-col gap-8 pr-7 relative">
                         <div className="relative bg-secondaryBackground w-full h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden">

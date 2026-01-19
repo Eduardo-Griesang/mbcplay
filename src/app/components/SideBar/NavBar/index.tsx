@@ -49,7 +49,7 @@ export default function NavBar() {
     ];
 
     return (
-        <nav className="flex-1 flex">
+        <nav className="flex">
             <ul className="mx-auto w-full mt-40 flex flex-col gap-5 items-start">
                 {navLinks.map((link) => {
                     const isActive = pathname === link.href;

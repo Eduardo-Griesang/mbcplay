@@ -1,4 +1,5 @@
 import Logo from "../Logo";
+import Categories from "./Categories";
 import NavBar from "./NavBar";
 
 export default function SideBar() {
@@ -6,6 +7,7 @@ export default function SideBar() {
         <nav className="py-10 bg-secondaryBackground flex flex-col col-span-1 items-center h-screen">
             <Logo />
             <NavBar />
+            <Categories />
         </nav>
     )
 };

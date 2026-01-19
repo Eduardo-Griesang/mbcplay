@@ -12,6 +12,7 @@ export interface MediaItem {
     release_date?: string;
     first_air_date?: string;
     vote_average: number;
+    genre_ids?: number[];
 }
 
 interface MediaContextType {
@@ -26,6 +27,9 @@ interface MediaContextType {
     upcomingTVShows: MediaItem[];
     loadingTVShows: boolean;
     errorTVShows: string | null;
+
+    selectedCategoryId: string;
+    setSelectedCategoryId: (categoryId: string) => void;
 
     // Refetch functions
     refetchMovies: () => Promise<void>;
@@ -44,6 +48,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [upcomingTVShows, setUpcomingTVShows] = useState<MediaItem[]>([]);
     const [loadingTVShows, setLoadingTVShows] = useState(true);
     const [errorTVShows, setErrorTVShows] = useState<string | null>(null);
+    const [selectedCategoryId, setSelectedCategoryId] = useState("all");
 
     const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
     const baseURL = process.env.NEXT_PUBLIC_TMDB_BASE_URL;
@@ -116,6 +121,8 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         upcomingTVShows,
         loadingTVShows,
         errorTVShows,
+        selectedCategoryId,
+        setSelectedCategoryId,
         refetchMovies: fetchMovies,
         refetchTVShows: fetchTVShows,
     };

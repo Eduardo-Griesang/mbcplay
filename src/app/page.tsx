@@ -5,6 +5,7 @@ import HeroCarousel from "./components/HeroCarousel";
 import { useMedia } from "@/context/MediaContext";
 import { useEffect } from "react";
 import MainPage from "./components/MainPage";
+import { filterByCategory } from "@/lib/categories";
 
 export default function Home() {
   const { 
@@ -15,24 +16,30 @@ export default function Home() {
     loadingMovies,
     loadingTVShows,
     errorMovies,
-    errorTVShows
+    errorTVShows,
+    selectedCategoryId
   } = useMedia();
 
   useEffect(() => {
     console.log(popularMovies)
   })
 
+  const filteredPopularMovies = filterByCategory(popularMovies, "movie", selectedCategoryId);
+  const filteredUpcomingMovies = filterByCategory(upcomingMovies, "movie", selectedCategoryId);
+  const filteredPopularTVShows = filterByCategory(popularTVShows, "tv", selectedCategoryId);
+  const filteredUpcomingTVShows = filterByCategory(upcomingTVShows, "tv", selectedCategoryId);
+
   return (
     <MainPage>
         <HeroCarousel 
-          items={upcomingMovies.slice(11, 13)}
+          items={filteredUpcomingMovies.slice(11, 13)}
           mediaType="movie"
           loading={loadingMovies}
         />
         
         <MediaSection
           title="Filmes Populares"
-          items={popularMovies}
+          items={filteredPopularMovies}
           loading={loadingMovies}
           error={errorMovies}
           mediaType="movie"
@@ -40,7 +47,7 @@ export default function Home() {
         
         <MediaSection
           title="Series Populares"
-          items={popularTVShows}
+          items={filteredPopularTVShows}
           loading={loadingTVShows}
           error={errorTVShows}
           mediaType="tv"
@@ -48,7 +55,7 @@ export default function Home() {
         
         <MediaSection
           title="Filmes - Em Breve"
-          items={upcomingMovies}
+          items={filteredUpcomingMovies}
           loading={loadingMovies}
           error={errorMovies}
           mediaType="movie"
@@ -56,7 +63,7 @@ export default function Home() {
         
         <MediaSection
           title="Series - Em Breve"
-          items={upcomingTVShows}
+          items={filteredUpcomingTVShows}
           loading={loadingTVShows}
           error={errorTVShows}
           mediaType="tv"

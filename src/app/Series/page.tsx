@@ -3,21 +3,26 @@
 import MediaSection from "../components/MediaSection";
 import { useMedia } from "@/context/MediaContext";
 import MainPage from "../components/MainPage";
+import { filterByCategory } from "@/lib/categories";
 
 export default function Series() {
     const { 
         popularTVShows, 
         upcomingTVShows,
         loadingTVShows,
-        errorTVShows
+        errorTVShows,
+        selectedCategoryId
     } = useMedia();
+
+    const filteredPopularTVShows = filterByCategory(popularTVShows, "tv", selectedCategoryId);
+    const filteredUpcomingTVShows = filterByCategory(upcomingTVShows, "tv", selectedCategoryId);
 
     return (
         <MainPage>
             <div className="pb-12">
                 <MediaSection
                     title="Popular Series"
-                    items={popularTVShows}
+                    items={filteredPopularTVShows}
                     loading={loadingTVShows}
                     error={errorTVShows}
                     mediaType="tv"
@@ -25,7 +30,7 @@ export default function Series() {
                 
                 <MediaSection
                     title="Coming Soon"
-                    items={upcomingTVShows}
+                    items={filteredUpcomingTVShows}
                     loading={loadingTVShows}
                     error={errorTVShows}
                     mediaType="tv"
