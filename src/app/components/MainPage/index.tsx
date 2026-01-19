@@ -9,9 +9,9 @@ type MainPageProps = {
 
 export default function MainPage({ children }: MainPageProps) {
     return (
-        <div className="bg-mainBackground grid grid-cols-6 h-screen overflow-hidden">
+        <div className="bg-mainBackground grid grid-cols-1 md:grid-cols-6 h-screen overflow-hidden pb-20 md:pb-0">
             <SideBar />
-            <main className="col-span-5 flex flex-col overflow-y-auto">
+            <main className="col-span-1 md:col-span-5 flex flex-col overflow-y-auto">
                 <section className="flex items-center justify-between py-6 top-0 bg-mainBackground z-10 px-7">
                     <SearchBar />
                     <Profile />

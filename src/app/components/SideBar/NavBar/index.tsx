@@ -49,16 +49,16 @@ export default function NavBar() {
     ];
 
     return (
-        <nav className="flex">
-            <ul className="mx-auto w-full mt-40 flex flex-col gap-5 items-start">
+        <nav className="flex w-full md:w-auto">
+            <ul className="mx-auto md:mt-40 w-full md:w-auto flex md:flex-col gap-5 items-center md:items-start justify-center md:justify-start">
                 {navLinks.map((link) => {
                     const isActive = pathname === link.href;
                     return (
-                        <Link key={link.href} href={link.href} className={`flex items-center gap-4 font-semibold text-xl ${isActive ? 'text-white' : 'text-fourthText'}`}>
+                        <Link key={link.href} href={link.href} className={`flex flex-col md:flex-row items-center md:gap-4 font-semibold md:text-xl text-sm ${isActive ? 'text-white' : 'text-fourthText'}`}>
                             <div className={isActive ? 'text-white' : 'text-fourthText'}>
                                 {link.icon}
                             </div>
-                            <h2>{link.label}</h2>
+                            <h2 className="hidden md:block">{link.label}</h2>
                         </Link>
                     );
                 })}

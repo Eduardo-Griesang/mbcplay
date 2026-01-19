@@ -3,7 +3,6 @@
 import MediaSection from "./components/MediaSection";
 import HeroCarousel from "./components/HeroCarousel";
 import { useMedia } from "@/context/MediaContext";
-import { useEffect } from "react";
 import MainPage from "./components/MainPage";
 import { filterByCategory } from "@/lib/categories";
 
@@ -19,10 +18,6 @@ export default function Home() {
     errorTVShows,
     selectedCategoryId
   } = useMedia();
-
-  useEffect(() => {
-    console.log(popularMovies)
-  })
 
   const filteredPopularMovies = filterByCategory(popularMovies, "movie", selectedCategoryId);
   const filteredUpcomingMovies = filterByCategory(upcomingMovies, "movie", selectedCategoryId);
