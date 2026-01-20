@@ -15,7 +15,6 @@ export default function MediaCarousel({ items, mediaType, loading = false }: Med
   const itemsPerView = 5;
   const cardWidth = 160;
   const gap = 20;
-  const visibleWidth = itemsPerView * (cardWidth + gap) - gap;
 
   if (loading || !items || items.length === 0) {
     return (

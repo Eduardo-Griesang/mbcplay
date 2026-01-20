@@ -60,8 +60,6 @@ export default function HeroCarousel({ items, mediaType, loading = false }: Hero
     );
   }
 
-  const currentItem = items[currentIndex];
-
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
   };
@@ -118,7 +116,7 @@ export default function HeroCarousel({ items, mediaType, loading = false }: Hero
                           <Button play={true} trailerUrl={trailerUrl || undefined} />
                         </div>
                         <div className="w-40">
-                          <Button details={true} detailsHref={detailsHref} />
+                          <Button detailsHref={detailsHref} />
                         </div>
                       </div>
                     </div>

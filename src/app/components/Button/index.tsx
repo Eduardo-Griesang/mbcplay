@@ -5,12 +5,10 @@ import Image from "next/image";
 
 export default function Button({
     play,
-    details,
     detailsHref,
     trailerUrl,
 }: {
     play?: boolean;
-    details?: boolean;
     detailsHref?: string;
     trailerUrl?: string;
 }) {
