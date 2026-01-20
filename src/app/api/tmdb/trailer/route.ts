@@ -40,7 +40,7 @@ export async function GET(request: Request) {
         }
 
         return NextResponse.json({ trailerUrl: null, error: "No trailer found." });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ trailerUrl: null, error: "Failed to fetch trailer." }, { status: 500 });
     }
 }
