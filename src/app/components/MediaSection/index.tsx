@@ -2,6 +2,7 @@
 
 import { MediaItem } from '@/context/MediaContext';
 import MediaCard from '../MediaCard';
+import Link from 'next/link';
 
 interface MediaSectionProps {
   title: string;
@@ -10,6 +11,7 @@ interface MediaSectionProps {
   error: string | null;
   mediaType: 'movie' | 'tv';
   imageSize?: 'small' | 'medium' | 'large';
+  main?: boolean
 }
 
 export default function MediaSection({
@@ -19,6 +21,7 @@ export default function MediaSection({
   error,
   mediaType,
   imageSize = 'medium',
+  main = false
 }: MediaSectionProps) {
   if (loading) {
     return (
@@ -40,7 +43,7 @@ export default function MediaSection({
     return (
       <section className="mb-12">
         <h2 className="text-mainText text-2xl font-semibold mb-6">{title}</h2>
-        <p className="text-thirdText">Error: {error}</p>
+        <p className="text-thirdText">Ocorreu um erro: {error}</p>
       </section>
     );
   }
@@ -49,19 +52,39 @@ export default function MediaSection({
     return (
       <section className="mb-12">
         <h2 className="text-mainText text-2xl font-semibold mb-6">{title}</h2>
-        <p className="text-thirdText">No items found</p>
+        <p className="text-thirdText">Nenhum item encontrado</p>
       </section>
     );
   }
 
+  let link = '';
+  let width = '';
+  let pad = '';
+  if (mediaType === 'movie') {
+    link = '/Films'
+  } else if (mediaType === 'tv') {
+    link = '/Series'
+  }
+
+  if (main) {
+    width = 'w-4/5'
+  } else {
+    pad = 'pr-7'
+  }
+
   return (
-    <section className="mb-12">
-      <h2 className="text-mainText text-2xl font-semibold mb-6">{title}</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-x-auto pb-4">
+    <section className={`mb-12 ${width} ${pad}`}>
+      <div className='mb-6 flex justify-between'>
+        <h2 className="text-mainText text-2xl font-semibold">{title}</h2>
+        {main && 
+          <Link href={link} className='font-semibold text-lg text-fourthText'>Veja tudo</Link>
+        }
+      </div>
+      <section className="flex justify-between flex-wrap gap-6 overflow-x-auto pb-4">
         {items.map((item) => (
           <MediaCard key={item.id} media={item} mediaType={mediaType} imageSize={imageSize} />
         ))}
-      </div>
+      </section>
     </section>
   );
 }

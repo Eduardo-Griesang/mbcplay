@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MediaItem } from '@/context/MediaContext';
 import Button from '../Button';
 
@@ -13,6 +13,46 @@ interface HeroCarouselProps {
 
 export default function HeroCarousel({ items, mediaType, loading = false }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTrailer = async () => {
+      const currentItem = items[currentIndex];
+      if (!currentItem) return;
+
+      try {
+        const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+        const response = await fetch(
+          `https://api.themoviedb.org/3/${mediaType}/${currentItem.id}/videos?api_key=${apiKey}&language=en-US`
+        );
+        const data = await response.json();
+        const videos = data.results || [];
+
+        const trailer = videos.find(
+          (video: { type: string; site: string }) =>
+            video.type === "Trailer" && video.site === "YouTube"
+        );
+
+        if (trailer) {
+          setTrailerUrl(`https://www.youtube.com/watch?v=${trailer.key}`);
+        } else {
+          const youtubeVideo = videos.find(
+            (video: { site: string }) => video.site === "YouTube"
+          );
+          if (youtubeVideo) {
+            setTrailerUrl(`https://www.youtube.com/watch?v=${youtubeVideo.key}`);
+          } else {
+            setTrailerUrl(null);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch trailer:", error);
+        setTrailerUrl(null);
+      }
+    };
+
+    fetchTrailer();
+  }, [currentIndex, items, mediaType]);
 
   if (loading || !items || items.length === 0) {
     return (
@@ -75,7 +115,7 @@ export default function HeroCarousel({ items, mediaType, loading = false }: Hero
                     <div className="absolute inset-0 flex justify-end p-8 items-end">
                       <div className="flex gap-4 items-center">
                         <div className="w-40">
-                          <Button play={true} />
+                          <Button play={true} trailerUrl={trailerUrl || undefined} />
                         </div>
                         <div className="w-40">
                           <Button details={true} detailsHref={detailsHref} />

@@ -2,6 +2,7 @@
 
 import MediaSection from "./components/MediaSection";
 import HeroCarousel from "./components/HeroCarousel";
+import MediaCarousel from "./components/MediaCarousel";
 import { useMedia } from "@/context/MediaContext";
 import MainPage from "./components/MainPage";
 import { filterByCategory } from "@/lib/categories";
@@ -32,12 +33,10 @@ export default function Home() {
           loading={loadingMovies}
         />
         
-        <MediaSection
-          title="Filmes Populares"
-          items={filteredPopularMovies.slice(1, 11)}
-          loading={loadingMovies}
-          error={errorMovies}
+        <MediaCarousel
+          items={filteredPopularMovies.slice(1, 20)}
           mediaType="movie"
+          loading={loadingMovies}
         />
         
         <MediaSection
@@ -46,6 +45,7 @@ export default function Home() {
           loading={loadingTVShows}
           error={errorTVShows}
           mediaType="tv"
+          main={true}
         />
         
         <MediaSection
@@ -54,6 +54,7 @@ export default function Home() {
           loading={loadingMovies}
           error={errorMovies}
           mediaType="movie"
+          main={true}
         />
         
         <MediaSection
@@ -62,6 +63,7 @@ export default function Home() {
           loading={loadingTVShows}
           error={errorTVShows}
           mediaType="tv"
+          main={true}
         />
     </MainPage>
   );

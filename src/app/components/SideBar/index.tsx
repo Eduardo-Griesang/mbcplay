@@ -58,16 +58,19 @@ export default function SideBar() {
 function NavBarWithBorder() {
     const { activeIndex } = useContext(NavBarContext);
 
-    const positions = [233, 279, 325]; // px values for Explorar, Filmes, Series
+    const positions = [233, 279, 325];
     const offset = positions[activeIndex] || 233;
 
     return (
         <>
             <NavBar />
-            <div 
-                className="absolute right-0 w-1 h-7 bg-mainText rounded-l-lg transition-all duration-300" 
-                style={{top: `${offset}px`}}
-            ></div>
+            {activeIndex !== -1 && 
+                <div 
+                    className="absolute right-0 w-1 h-7 bg-mainText rounded-l-lg transition-all duration-300" 
+                    style={{top: `${offset}px`}}
+                ></div>
+            }
+            
         </>
     );
 }

@@ -1,10 +1,11 @@
 import Image from "next/image";
-import { getMediaDetails, getSimilarByGenres } from "@/lib/tmdb";
+import { getMediaDetails, getSimilarByGenres, getTrailerUrl } from "@/lib/tmdb";
 import MainPage from "../components/MainPage";
 import Star from "../icons/Star.svg"
 import Play from "../icons/Play.svg"
 import MediaCard from "../components/MediaCard";
 import type { MediaItem } from "@/context/MediaContext";
+import Link from "next/link";
 
 type DetailsPageProps = {
     searchParams?: {
@@ -64,6 +65,16 @@ export default async function Details({ searchParams }: DetailsPageProps) {
         vote_average: item.vote_average ?? 0,
         genre_ids: item.genre_ids ?? [],
     }));
+
+    const { trailerUrl } = details && normalizedType
+        ? await getTrailerUrl({
+              id: mediaId,
+              type: normalizedType,
+              apiKey,
+              baseURL,
+          })
+        : { trailerUrl: null };
+
     let type = ""
     if (normalizedType === "movie") {
         type = "Filmes"
@@ -91,13 +102,18 @@ export default async function Details({ searchParams }: DetailsPageProps) {
                                 className="object-cover"
                             />
                             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-mainText font-medium text-2xl ">
-                                <div className="rounded-full bg-mainText/35 w-24 h-24 flex items-center justify-center hover:cursor-pointer">
+                                <Link
+                                    href={trailerUrl || '#'}
+                                    target={trailerUrl ? "_blank" : undefined}
+                                    rel={trailerUrl ? "noopener noreferrer" : undefined}
+                                    className="rounded-full bg-mainText/35 w-24 h-24 flex items-center justify-center hover:cursor-pointer hover:bg-mainText/50 transition-colors"
+                                >
                                     <Image
                                         src={Play}
                                         alt={"Play button"}
                                         className="w-20 h-20"
                                     />
-                                </div>
+                                </Link>
                                 <h3>Assistir trailer</h3>
                             </div>
                         </div>

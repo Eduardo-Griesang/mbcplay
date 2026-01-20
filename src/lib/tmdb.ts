@@ -35,6 +35,11 @@ export type MediaSummary = {
     genre_ids?: number[];
 };
 
+export type TrailerResult = {
+    trailerUrl: string | null;
+    error: string | null;
+};
+
 type FetchResult = {
     details: MediaDetails | null;
     error: string | null;
@@ -129,5 +134,63 @@ export async function getSimilarByGenres(params: {
     } catch (error) {
         const message = error instanceof Error ? error.message : "Failed to fetch similar media.";
         return { items: [], error: message };
+    }
+}
+
+export async function getTrailerUrl(params: {
+    id?: string;
+    type?: string;
+    apiKey?: string;
+    baseURL?: string;
+}): Promise<TrailerResult> {
+    const { id, type, apiKey, baseURL = "https://api.themoviedb.org/3" } = params;
+    const isValidType = type === "movie" || type === "tv";
+
+    if (!id || !isValidType) {
+        return { trailerUrl: null, error: "Missing or invalid media ID/type." };
+    }
+
+    if (!apiKey) {
+        return { trailerUrl: null, error: "TMDB API key is not configured." };
+    }
+
+    try {
+        const res = await fetch(
+            `${baseURL}/${type}/${id}/videos?api_key=${apiKey}&language=en-US`,
+            {
+                cache: "no-store",
+            }
+        );
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch trailer (${res.status})`);
+        }
+
+        const data = await res.json();
+        const videos = data.results || [];
+        
+        // Look for official trailer
+        const trailer = videos.find(
+            (video: { type: string; name: string; site: string }) => 
+                video.type === "Trailer" && video.site === "YouTube"
+        );
+
+        if (trailer) {
+            return { trailerUrl: `https://www.youtube.com/watch?v=${trailer.key}`, error: null };
+        }
+
+        // Fallback to any YouTube video
+        const youtubeVideo = videos.find(
+            (video: { site: string }) => video.site === "YouTube"
+        );
+
+        if (youtubeVideo) {
+            return { trailerUrl: `https://www.youtube.com/watch?v=${youtubeVideo.key}`, error: null };
+        }
+
+        return { trailerUrl: null, error: "No trailer found." };
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to fetch trailer.";
+        return { trailerUrl: null, error: message };
     }
 }
