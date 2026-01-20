@@ -73,7 +73,7 @@ export default function MediaSection({
   }
 
   return (
-    <section className={`mb-12 pr-7 md:pr-0 ${width} ${pad}`}>
+    <section className={`mb-12 pr-7 ${pad} ${width} `}>
       <div className='mb-6 flex justify-between'>
         <h2 className="text-mainText text-2xl font-semibold">{title}</h2>
         {main && 
