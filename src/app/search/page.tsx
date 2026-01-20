@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import MainPage from "../components/MainPage";
 import MediaCard from "../components/MediaCard";
@@ -9,6 +9,14 @@ import type { MediaItem } from "@/context/MediaContext";
 type SearchResult = MediaItem & { media_type: "movie" | "tv" };
 
 export default function SearchPage() {
+    return (
+        <Suspense fallback={<div className="px-7 pb-12 text-thirdText">Carregando busca...</div>}>
+            <SearchContent />
+        </Suspense>
+    );
+}
+
+function SearchContent() {
     const searchParams = useSearchParams();
     const query = useMemo(() => (searchParams.get("q") ?? "").trim(), [searchParams]);
     const [results, setResults] = useState<SearchResult[]>([]);
