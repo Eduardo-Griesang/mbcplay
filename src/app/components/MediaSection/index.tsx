@@ -67,20 +67,20 @@ export default function MediaSection({
   }
 
   if (main) {
-    width = 'w-4/5'
+    width = 'md:w-4/5 '
   } else {
     pad = 'pr-7'
   }
 
   return (
-    <section className={`mb-12 ${width} ${pad}`}>
+    <section className={`mb-12 pr-7 md:pr-0 ${width} ${pad}`}>
       <div className='mb-6 flex justify-between'>
         <h2 className="text-mainText text-2xl font-semibold">{title}</h2>
         {main && 
           <Link href={link} className='font-semibold text-lg text-fourthText'>Veja tudo</Link>
         }
       </div>
-      <section className="flex justify-between flex-wrap gap-6 overflow-x-auto pb-4">
+      <section className="flex justify-between items-center flex-wrap gap-4 overflow-x-auto pb-4">
         {items.map((item) => (
           <MediaCard key={item.id} media={item} mediaType={mediaType} imageSize={imageSize} />
         ))}

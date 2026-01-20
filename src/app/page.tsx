@@ -6,6 +6,8 @@ import MediaCarousel from "./components/MediaCarousel";
 import { useMedia } from "@/context/MediaContext";
 import MainPage from "./components/MainPage";
 import { filterByCategory } from "@/lib/categories";
+import { filterByFilters } from "@/lib/filters";
+import Filters from "./components/Filters";
 
 export default function Home() {
   const { 
@@ -17,13 +19,40 @@ export default function Home() {
     loadingTVShows,
     errorMovies,
     errorTVShows,
-    selectedCategoryId
+    selectedCategoryId,
+    selectedMood,
+    selectedYear,
+    selectedLanguage,
+    selectedAgeRating,
   } = useMedia();
 
-  const filteredPopularMovies = filterByCategory(popularMovies, "movie", selectedCategoryId);
-  const filteredUpcomingMovies = filterByCategory(upcomingMovies, "movie", selectedCategoryId);
-  const filteredPopularTVShows = filterByCategory(popularTVShows, "tv", selectedCategoryId);
-  const filteredUpcomingTVShows = filterByCategory(upcomingTVShows, "tv", selectedCategoryId);
+  const activeFilters = {
+    mood: selectedMood,
+    year: selectedYear,
+    language: selectedLanguage,
+    ageRating: selectedAgeRating,
+  };
+
+  const filteredPopularMovies = filterByFilters(
+    filterByCategory(popularMovies, "movie", selectedCategoryId),
+    "movie",
+    activeFilters
+  );
+  const filteredUpcomingMovies = filterByFilters(
+    filterByCategory(upcomingMovies, "movie", selectedCategoryId),
+    "movie",
+    activeFilters
+  );
+  const filteredPopularTVShows = filterByFilters(
+    filterByCategory(popularTVShows, "tv", selectedCategoryId),
+    "tv",
+    activeFilters
+  );
+  const filteredUpcomingTVShows = filterByFilters(
+    filterByCategory(upcomingTVShows, "tv", selectedCategoryId),
+    "tv",
+    activeFilters
+  );
 
   return (
     <MainPage>
@@ -39,32 +68,38 @@ export default function Home() {
           loading={loadingMovies}
         />
         
-        <MediaSection
-          title="Series Populares"
-          items={filteredPopularTVShows.slice(1, 5)}
-          loading={loadingTVShows}
-          error={errorTVShows}
-          mediaType="tv"
-          main={true}
-        />
-        
-        <MediaSection
-          title="Filmes - Em Breve"
-          items={filteredUpcomingMovies.slice(1, 5)}
-          loading={loadingMovies}
-          error={errorMovies}
-          mediaType="movie"
-          main={true}
-        />
-        
-        <MediaSection
-          title="Series - Em Breve"
-          items={filteredUpcomingTVShows.slice(1, 5)}
-          loading={loadingTVShows}
-          error={errorTVShows}
-          mediaType="tv"
-          main={true}
-        />
+        <section className="flex flex-col md:flex-row-reverse md:justify-end">
+          <Filters />
+
+          <section className="md:w-3/4">
+            <MediaSection
+              title="Series Populares"
+              items={filteredPopularTVShows.slice(1, 5)}
+              loading={loadingTVShows}
+              error={errorTVShows}
+              mediaType="tv"
+              main={true}
+            />
+            
+            <MediaSection
+              title="Filmes - Em Breve"
+              items={filteredUpcomingMovies.slice(1, 5)}
+              loading={loadingMovies}
+              error={errorMovies}
+              mediaType="movie"
+              main={true}
+            />
+            
+            <MediaSection
+              title="Series - Em Breve"
+              items={filteredUpcomingTVShows.slice(1, 5)}
+              loading={loadingTVShows}
+              error={errorTVShows}
+              mediaType="tv"
+              main={true}
+            />
+          </section>
+        </section>
     </MainPage>
   );
 }

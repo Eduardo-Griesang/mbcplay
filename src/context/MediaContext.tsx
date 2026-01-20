@@ -13,6 +13,8 @@ export interface MediaItem {
     first_air_date?: string;
     vote_average: number;
     genre_ids?: number[];
+    original_language?: string;
+    adult?: boolean;
 }
 
 interface MediaContextType {
@@ -30,6 +32,15 @@ interface MediaContextType {
 
     selectedCategoryId: string;
     setSelectedCategoryId: (categoryId: string) => void;
+
+    selectedMood: string;
+    setSelectedMood: (mood: string) => void;
+    selectedYear: string;
+    setSelectedYear: (year: string) => void;
+    selectedLanguage: string;
+    setSelectedLanguage: (language: string) => void;
+    selectedAgeRating: string;
+    setSelectedAgeRating: (rating: string) => void;
 
     // Refetch functions
     refetchMovies: () => Promise<void>;
@@ -49,6 +60,10 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [loadingTVShows, setLoadingTVShows] = useState(true);
     const [errorTVShows, setErrorTVShows] = useState<string | null>(null);
     const [selectedCategoryId, setSelectedCategoryId] = useState("all");
+    const [selectedMood, setSelectedMood] = useState("all");
+    const [selectedYear, setSelectedYear] = useState("all");
+    const [selectedLanguage, setSelectedLanguage] = useState("all");
+    const [selectedAgeRating, setSelectedAgeRating] = useState("all");
 
     const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
     const baseURL = process.env.NEXT_PUBLIC_TMDB_BASE_URL;
@@ -123,6 +138,14 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         errorTVShows,
         selectedCategoryId,
         setSelectedCategoryId,
+        selectedMood,
+        setSelectedMood,
+        selectedYear,
+        setSelectedYear,
+        selectedLanguage,
+        setSelectedLanguage,
+        selectedAgeRating,
+        setSelectedAgeRating,
         refetchMovies: fetchMovies,
         refetchTVShows: fetchTVShows,
     };

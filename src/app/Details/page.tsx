@@ -168,7 +168,7 @@ export default async function Details({ searchParams }: DetailsPageProps) {
                                 <h2 className="text-mainText text-2xl font-semibold mb-6">
                                     Outros {type} que voce pode gostar:
                                 </h2>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                                <div className="grid grid-cols-2 place-items-center sm:grid-cols-3 md:grid-cols-4 gap-6">
                                     {normalizedSimilarItems.map((item) => (
                                         <MediaCard
                                             key={item.id}
