@@ -101,8 +101,8 @@ export default async function Details({ searchParams }: DetailsPageProps) {
                                 <h3>Assistir trailer</h3>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-4 w-3/4">
-                            <section className="flex justify-between items-center">
+                        <div className="flex flex-col gap-4 md:w-3/4">
+                            <section className="flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
                                 <h1 className="text-mainText text-2xl font-medium">
                                     {details.title ?? details.name} • {year ? year : "N/A"} • {typeof details.runtime === "number" ? (<span>{details.runtime} min</span>) : "N/A"}
                                 </h1>
@@ -148,9 +148,9 @@ export default async function Details({ searchParams }: DetailsPageProps) {
                             </div>
                         </div>
                         {normalizedSimilarItems.length > 0 && normalizedType && (
-                            <section className="mt-16 w-3/4">
+                            <section className="mt-16 md:w-3/4">
                                 <h2 className="text-mainText text-2xl font-semibold mb-6">
-                                    Outros {type} que voce pode gostar
+                                    Outros {type} que voce pode gostar:
                                 </h2>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                                     {normalizedSimilarItems.map((item) => (

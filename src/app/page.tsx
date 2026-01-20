@@ -34,7 +34,7 @@ export default function Home() {
         
         <MediaSection
           title="Filmes Populares"
-          items={filteredPopularMovies}
+          items={filteredPopularMovies.slice(1, 11)}
           loading={loadingMovies}
           error={errorMovies}
           mediaType="movie"
@@ -42,7 +42,7 @@ export default function Home() {
         
         <MediaSection
           title="Series Populares"
-          items={filteredPopularTVShows}
+          items={filteredPopularTVShows.slice(1, 5)}
           loading={loadingTVShows}
           error={errorTVShows}
           mediaType="tv"
@@ -50,7 +50,7 @@ export default function Home() {
         
         <MediaSection
           title="Filmes - Em Breve"
-          items={filteredUpcomingMovies}
+          items={filteredUpcomingMovies.slice(1, 5)}
           loading={loadingMovies}
           error={errorMovies}
           mediaType="movie"
@@ -58,7 +58,7 @@ export default function Home() {
         
         <MediaSection
           title="Series - Em Breve"
-          items={filteredUpcomingTVShows}
+          items={filteredUpcomingTVShows.slice(1, 5)}
           loading={loadingTVShows}
           error={errorTVShows}
           mediaType="tv"

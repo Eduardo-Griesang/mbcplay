@@ -1,23 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Logo from "../Logo";
 import Categories from "./Categories";
 import NavBar from "./NavBar";
+import { NavBarProvider, NavBarContext } from "../context/NavBarContext";
 
 export default function SideBar() {
     const [showCategories, setShowCategories] = useState(false);
 
     return (
-        <>
-            {/* Desktop Sidebar */}
-            <nav className="hidden md:flex py-10 bg-secondaryBackground flex-col col-span-1 items-center h-screen">
-                <Logo />
-                <NavBar />
-                <Categories />
-            </nav>
+        <NavBarProvider>
+            <>
+                {/* Desktop */}
+                <nav className="hidden md:flex py-10 bg-secondaryBackground flex-col col-span-1 items-center h-screen relative">
+                    <Logo />
+                    <NavBarWithBorder />
+                    <Categories />
+                </nav>
 
-            {/* Mobile Bottom Navigation */}
+            {/* Mobile Nav */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-secondaryBackground flex items-center justify-around py-3 px-4 z-20">
                 <NavBar />
                 <button
@@ -31,7 +33,7 @@ export default function SideBar() {
                 </button>
             </nav>
 
-            {/* Mobile Categories Modal */}
+            {/* Mobile Categories */}
             {showCategories && (
                 <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-end">
                     <div className="w-full bg-secondaryBackground rounded-t-lg p-6 max-h-96 overflow-y-auto">
@@ -49,5 +51,23 @@ export default function SideBar() {
                 </div>
             )}
         </>
+        </NavBarProvider>
     )
 };
+
+function NavBarWithBorder() {
+    const { activeIndex } = useContext(NavBarContext);
+
+    const positions = [233, 279, 325]; // px values for Explorar, Filmes, Series
+    const offset = positions[activeIndex] || 233;
+
+    return (
+        <>
+            <NavBar />
+            <div 
+                className="absolute right-0 w-1 h-7 bg-mainText rounded-l-lg transition-all duration-300" 
+                style={{top: `${offset}px`}}
+            ></div>
+        </>
+    );
+}

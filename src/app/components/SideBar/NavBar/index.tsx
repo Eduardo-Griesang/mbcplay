@@ -1,12 +1,13 @@
 'use client';
 
-import Image from "next/image";
-import Film from "../../../icons/compass-pointing-svgrepo-com.svg"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useContext } from "react";
+import { NavBarContext } from "../../context/NavBarContext";
 
 export default function NavBar() {
     const pathname = usePathname();
+    const { setActiveIndex } = useContext(NavBarContext);
 
     const navLinks = [
         {
@@ -47,6 +48,11 @@ export default function NavBar() {
             )
         }
     ];
+
+    useEffect(() => {
+        const activeIndex = navLinks.findIndex(link => pathname === link.href);
+        setActiveIndex(activeIndex);
+    }, [pathname, setActiveIndex]);
 
     return (
         <nav className="flex w-full md:w-auto">

@@ -17,7 +17,7 @@ export default function MediaCard({ media, mediaType, imageSize = 'medium' }: Me
     : 'https://via.placeholder.com/300x450?text=No+Image';
 
   const sizeClasses = {
-    small: 'w-40 h-56',
+    small: 'w-32 h-48',
     medium: 'w-40 h-56',
     large: 'w-48 h-64',
   };
