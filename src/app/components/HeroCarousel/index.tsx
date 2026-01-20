@@ -101,7 +101,7 @@ export default function HeroCarousel({ items, mediaType, loading = false }: Hero
               >
                 <Image
                   src={backdropUrl}
-                  alt={item.title || item.name}
+                  alt={item.title ?? item.name ?? "Media backdrop"}
                   fill
                   className="object-cover"
                 />
