@@ -1,41 +1,16 @@
-'use client';
-
-import MediaSection from "../components/MediaSection";
-import { useMedia } from "@/context/MediaContext";
 import MainPage from "../components/MainPage";
-import { filterByCategory } from "@/lib/categories";
+import FilmsContent from "../components/FilmsContent";
+import { fetchPopularMovies, fetchUpcomingMovies } from "@/lib/tmdbServer";
 
-export default function Films() {
-    const { 
-        popularMovies, 
-        upcomingMovies,
-        loadingMovies,
-        errorMovies,
-        selectedCategoryId
-    } = useMedia();
+export default async function Films() {
+    const [popularMovies, upcomingMovies] = await Promise.all([
+        fetchPopularMovies(),
+        fetchUpcomingMovies(),
+    ]);
 
-    const filteredPopularMovies = filterByCategory(popularMovies, "movie", selectedCategoryId);
-    const filteredUpcomingMovies = filterByCategory(upcomingMovies, "movie", selectedCategoryId);
-
-    return(
+    return (
         <MainPage>
-            <div className="pb-12">
-                <MediaSection
-                    title="Popular Movies"
-                    items={filteredPopularMovies}
-                    loading={loadingMovies}
-                    error={errorMovies}
-                    mediaType="movie"
-                />
-                
-                <MediaSection
-                    title="Coming Soon"
-                    items={filteredUpcomingMovies}
-                    loading={loadingMovies}
-                    error={errorMovies}
-                    mediaType="movie"
-                />
-            </div>
+            <FilmsContent popularMovies={popularMovies} upcomingMovies={upcomingMovies} />
         </MainPage>
-    )
-};
+    );
+}

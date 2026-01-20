@@ -1,41 +1,19 @@
-'use client';
-
-import MediaSection from "../components/MediaSection";
-import { useMedia } from "@/context/MediaContext";
 import MainPage from "../components/MainPage";
-import { filterByCategory } from "@/lib/categories";
+import SeriesContent from "../components/SeriesContent";
+import { fetchPopularTVShows, fetchUpcomingTVShows } from "@/lib/tmdbServer";
 
-export default function Series() {
-    const { 
-        popularTVShows, 
-        upcomingTVShows,
-        loadingTVShows,
-        errorTVShows,
-        selectedCategoryId
-    } = useMedia();
-
-    const filteredPopularTVShows = filterByCategory(popularTVShows, "tv", selectedCategoryId);
-    const filteredUpcomingTVShows = filterByCategory(upcomingTVShows, "tv", selectedCategoryId);
+export default async function Series() {
+    const [popularTVShows, upcomingTVShows] = await Promise.all([
+        fetchPopularTVShows(),
+        fetchUpcomingTVShows(),
+    ]);
 
     return (
         <MainPage>
-            <div className="pb-12">
-                <MediaSection
-                    title="Popular Series"
-                    items={filteredPopularTVShows}
-                    loading={loadingTVShows}
-                    error={errorTVShows}
-                    mediaType="tv"
-                />
-                
-                <MediaSection
-                    title="Coming Soon"
-                    items={filteredUpcomingTVShows}
-                    loading={loadingTVShows}
-                    error={errorTVShows}
-                    mediaType="tv"
-                />
-            </div>
+            <SeriesContent
+                popularTVShows={popularTVShows}
+                upcomingTVShows={upcomingTVShows}
+            />
         </MainPage>
-    )
-};
+    );
+}

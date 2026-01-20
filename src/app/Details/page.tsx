@@ -17,8 +17,8 @@ type DetailsPageProps = {
 export default async function Details({ searchParams }: DetailsPageProps) {
     const mediaId = searchParams?.id;
     const mediaType = searchParams?.type;
-    const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-    const baseURL = process.env.NEXT_PUBLIC_TMDB_BASE_URL ?? "https://api.themoviedb.org/3";
+    const apiKey = process.env.TMDB_API_KEY ?? process.env.NEXT_PUBLIC_TMDB_API_KEY;
+    const baseURL = process.env.TMDB_BASE_URL ?? process.env.NEXT_PUBLIC_TMDB_BASE_URL ?? "https://api.themoviedb.org/3";
     const { details, error: errorMessage } = await getMediaDetails({
         id: mediaId,
         type: mediaType,

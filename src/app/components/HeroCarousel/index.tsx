@@ -21,30 +21,11 @@ export default function HeroCarousel({ items, mediaType, loading = false }: Hero
       if (!currentItem) return;
 
       try {
-        const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
         const response = await fetch(
-          `https://api.themoviedb.org/3/${mediaType}/${currentItem.id}/videos?api_key=${apiKey}&language=en-US`
+          `/api/tmdb/trailer?id=${currentItem.id}&type=${mediaType}`
         );
         const data = await response.json();
-        const videos = data.results || [];
-
-        const trailer = videos.find(
-          (video: { type: string; site: string }) =>
-            video.type === "Trailer" && video.site === "YouTube"
-        );
-
-        if (trailer) {
-          setTrailerUrl(`https://www.youtube.com/watch?v=${trailer.key}`);
-        } else {
-          const youtubeVideo = videos.find(
-            (video: { site: string }) => video.site === "YouTube"
-          );
-          if (youtubeVideo) {
-            setTrailerUrl(`https://www.youtube.com/watch?v=${youtubeVideo.key}`);
-          } else {
-            setTrailerUrl(null);
-          }
-        }
+        setTrailerUrl(data?.trailerUrl ?? null);
       } catch (error) {
         console.error("Failed to fetch trailer:", error);
         setTrailerUrl(null);
