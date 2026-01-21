@@ -1,17 +1,12 @@
 'use client';
 
 import { useMedia } from "@/context/MediaContext";
+import { useData } from "@/context/DataContext";
 import { filterByCategory } from "@/lib/categories";
 import { filterByFilters } from "@/lib/filters";
-import type { MediaItem } from "@/context/MediaContext";
 import MediaSection from "../MediaSection";
 
-type FilmsContentProps = {
-    popularMovies: MediaItem[];
-    upcomingMovies: MediaItem[];
-};
-
-export default function FilmsContent({ popularMovies, upcomingMovies }: FilmsContentProps) {
+export default function FilmsContent() {
     const {
         selectedCategoryId,
         selectedMood,
@@ -19,6 +14,11 @@ export default function FilmsContent({ popularMovies, upcomingMovies }: FilmsCon
         selectedLanguage,
         selectedAgeRating,
     } = useMedia();
+
+    const {
+        popularMovies,
+        upcomingMovies,
+    } = useData();
 
     const activeFilters = {
         mood: selectedMood,

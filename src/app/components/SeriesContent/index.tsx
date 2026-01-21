@@ -1,17 +1,12 @@
 'use client';
 
 import { useMedia } from "@/context/MediaContext";
+import { useData } from "@/context/DataContext";
 import { filterByCategory } from "@/lib/categories";
 import { filterByFilters } from "@/lib/filters";
-import type { MediaItem } from "@/context/MediaContext";
 import MediaSection from "../MediaSection";
 
-type SeriesContentProps = {
-    popularTVShows: MediaItem[];
-    upcomingTVShows: MediaItem[];
-};
-
-export default function SeriesContent({ popularTVShows, upcomingTVShows }: SeriesContentProps) {
+export default function SeriesContent() {
     const {
         selectedCategoryId,
         selectedMood,
@@ -19,6 +14,11 @@ export default function SeriesContent({ popularTVShows, upcomingTVShows }: Serie
         selectedLanguage,
         selectedAgeRating,
     } = useMedia();
+
+    const {
+        popularTVShows,
+        upcomingTVShows,
+    } = useData();
 
     const activeFilters = {
         mood: selectedMood,

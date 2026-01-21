@@ -1,27 +1,15 @@
 'use client';
 
 import { useMedia } from "@/context/MediaContext";
+import { useData } from "@/context/DataContext";
 import { filterByCategory } from "@/lib/categories";
 import { filterByFilters } from "@/lib/filters";
-import type { MediaItem } from "@/context/MediaContext";
 import HeroCarousel from "../HeroCarousel";
 import MediaCarousel from "../MediaCarousel";
 import MediaSection from "../MediaSection";
 import Filters from "../Filters";
 
-type HomeContentProps = {
-    popularMovies: MediaItem[];
-    upcomingMovies: MediaItem[];
-    popularTVShows: MediaItem[];
-    upcomingTVShows: MediaItem[];
-};
-
-export default function HomeContent({
-    popularMovies,
-    upcomingMovies,
-    popularTVShows,
-    upcomingTVShows,
-}: HomeContentProps) {
+export default function HomeContent() {
     const {
         selectedCategoryId,
         selectedMood,
@@ -29,6 +17,13 @@ export default function HomeContent({
         selectedLanguage,
         selectedAgeRating,
     } = useMedia();
+
+    const {
+        popularMovies,
+        upcomingMovies,
+        popularTVShows,
+        upcomingTVShows,
+    } = useData();
 
     const activeFilters = {
         mood: selectedMood,
