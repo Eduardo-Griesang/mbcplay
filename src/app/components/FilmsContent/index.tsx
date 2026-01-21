@@ -41,7 +41,7 @@ export default function FilmsContent() {
     return (
         <div className="pb-12">
             <MediaSection
-                title="Popular Movies"
+                title="Filmes Populares"
                 items={filteredPopularMovies}
                 loading={false}
                 error={null}
@@ -49,7 +49,7 @@ export default function FilmsContent() {
             />
 
             <MediaSection
-                title="Coming Soon"
+                title="Em Breve"
                 items={filteredUpcomingMovies}
                 loading={false}
                 error={null}

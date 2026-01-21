@@ -41,7 +41,7 @@ export default function SeriesContent() {
     return (
         <div className="pb-12">
             <MediaSection
-                title="Popular Series"
+                title="Series Populares"
                 items={filteredPopularTVShows}
                 loading={false}
                 error={null}
@@ -49,7 +49,7 @@ export default function SeriesContent() {
             />
 
             <MediaSection
-                title="Coming Soon"
+                title="Em Breve"
                 items={filteredUpcomingTVShows}
                 loading={false}
                 error={null}
